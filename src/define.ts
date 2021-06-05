@@ -164,7 +164,7 @@ export type Factory<Ctx, TExtensionsMap extends ExtensionsMap > = {
     fields,
   }: {
     name?: string | undefined;
-    fields: Field<Ctx, RootSrc, any, {}>[];
+    fields: () => Field<Ctx, RootSrc, any, {}>[];
   }): ObjectType<Ctx, RootSrc>;
   mutationType<RootSrc>({
     name,
@@ -432,13 +432,13 @@ export function createTypesFactory<Ctx = undefined, TExtensions extends Extensio
       fields,
     }: {
       name?: string;
-      fields: Array<Field<Ctx, RootSrc, any>>;
+      fields: () => Array<Field<Ctx, RootSrc, any>>;
     }): ObjectType<Ctx, RootSrc> {
       return {
         kind: 'ObjectType',
         name,
         interfaces: [],
-        fieldsFn: () => fields,
+        fieldsFn: fields,
       };
     },
     mutationType<RootSrc>({
