@@ -179,7 +179,7 @@ export type Factory<Ctx, TExtensionsMap extends ExtensionsMap> = {
     fields,
   }: {
     name?: string | undefined;
-    fields: Field<Ctx, RootSrc, any, {}>[];
+    fields: () => Field<Ctx, RootSrc, any, {}>[];
   }): ObjectType<Ctx, RootSrc>;
   subscriptionField<RootSrc, Out_2, Arg_1>(
     name: string,
@@ -218,7 +218,7 @@ export type Factory<Ctx, TExtensionsMap extends ExtensionsMap> = {
     fields,
   }: {
     name?: string | undefined;
-    fields: SubscriptionField<Ctx, Src, unknown, unknown>[];
+    fields: () => SubscriptionField<Ctx, Src, unknown, unknown>[];
   }): SubscriptionObject<Ctx, Src>;
 };
 
@@ -471,13 +471,13 @@ export function createTypesFactory<
       fields,
     }: {
       name?: string;
-      fields: Array<Field<Ctx, RootSrc, any>>;
+      fields: () => Array<Field<Ctx, RootSrc, any>>;
     }): ObjectType<Ctx, RootSrc> {
       return {
         kind: "ObjectType",
         name,
         interfaces: [],
-        fieldsFn: () => fields,
+        fieldsFn: fields,
       };
     },
     subscriptionField<RootSrc, Out, Arg>(
@@ -524,7 +524,7 @@ export function createTypesFactory<
       fields,
     }: {
       name?: string;
-      fields: Array<SubscriptionField<Ctx, Src, unknown, unknown>>;
+      fields: () => Array<SubscriptionField<Ctx, Src, unknown, unknown>>;
     }): SubscriptionObject<Ctx, Src> {
       return {
         kind: "SubscriptionObject",
